@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.examly.springapp.model.OTPVerification;
+import com.omkar.trainerhub.model.OTPVerification;
 
 @Repository
 public interface OTPVerificationRepository extends JpaRepository<OTPVerification, String> {
