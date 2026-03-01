@@ -1,17 +1,16 @@
 package com.omkar.trainerhub.service.serviceImpl;
 
-package com.examly.springapp.service.serviceImpl;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.examly.springapp.exceptions.DuplicateTrainerException;
-import com.examly.springapp.exceptions.TrainerDeletionException;
-import com.examly.springapp.model.Requirement;
-import com.examly.springapp.model.Trainer;
-import com.examly.springapp.repository.modelrepos.RequirementRepo;
-import com.examly.springapp.repository.modelrepos.TrainerRepo;
-import com.examly.springapp.service.TrainerService;
+import com.omkar.trainerhub.exceptions.DuplicateTrainerException;
+import com.omkar.trainerhub.exceptions.TrainerDeletionException;
+import com.omkar.trainerhub.model.Requirement;
+import com.omkar.trainerhub.model.Trainer;
+import com.omkar.trainerhub.repository.modelrepos.RequirementRepo;
+import com.omkar.trainerhub.repository.modelrepos.TrainerRepo;
+import com.omkar.trainerhub.service.TrainerService;
 
 import jakarta.persistence.EntityNotFoundException;
 

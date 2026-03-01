@@ -1,0 +1,74 @@
+.verify-container {
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: #f6f8fb;
+}
+
+.card {
+  width: min(520px, 92vw);
+  background: #fff;
+  border-radius: 14px;
+  padding: 26px 22px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  border: 1px solid #eef1f6;
+}
+
+.icon {
+  font-size: 44px;
+  margin-bottom: 10px;
+}
+
+.card.success h2 {
+  color: #118d57;
+  margin-top: 6px;
+}
+
+.card.error h2 {
+  color: #c0392b;
+  margin-top: 6px;
+}
+
+.hint {
+  margin-top: 12px;
+  color: #5f6b7a;
+}
+
+.actions {
+  margin-top: 14px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: #2d6cdf;
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  font-weight: 600;
+}
+
+.btn:hover {
+  filter: brightness(0.95);
+}
+
+.btn.secondary {
+  background: #f1f4fb;
+  color: #2d6cdf;
+  border: 1px solid #dbe6ff;
+}
+
+.btn.link {
+  background: transparent;
+  color: #2d6cdf;
+  padding: 10px 6px;
+}

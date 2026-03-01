@@ -1,0 +1,262 @@
+
+<div class="page-container">
+  <div class="bg-shape shape-1"></div>
+  <div class="bg-shape shape-2"></div>
+  <div class="bg-grid"></div>
+  
+  <div class="content-card">
+   
+    <div class="back-btn-container">
+      <a routerLink="/view-requirements" class="btn-back">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Back
+      </a>
+    </div>
+  
+    <div class="card-header">
+      <div class="logo-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+          fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+      </div>
+      <h2 class="page-title">Trainer Details</h2>
+      <p class="page-subtitle">Review trainer profile and requirement before making a decision.</p>
+    </div>
+  
+    <div class="details-grid">
+      <div class="section-panel">
+        <div class="section-panel-header">
+          <div class="section-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+              fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="8" r="4"></circle>
+              <path d="M20 21a8 8 0 1 0-16 0"></path>
+            </svg>
+          </div>
+          <h3 class="section-title">Trainer Profile</h3>
+        </div>
+  
+        <div class="trainer-avatar-large">
+          {{ trainer?.name?.charAt(0)?.toUpperCase() }}
+        </div>
+  
+        <p class="trainer-name-heading">{{ trainer?.name }}</p>
+  
+        <div class="info-row">
+          <span class="info-label">Email</span>
+          <span class="info-value">{{ trainer?.email }}</span>
+        </div>
+  
+        <div class="info-row">
+          <span class="info-label">Phone</span>
+          <span class="info-value">{{ trainer?.phone }}</span>
+        </div>
+  
+        <div class="info-row">
+          <span class="info-label">Expertise</span>
+          <span class="info-value">{{ trainer?.expertise }}</span>
+        </div>
+  
+        <div class="info-row">
+          <span class="info-label">Experience</span>
+          <span class="info-value">{{ trainer?.experience }} yrs</span>
+        </div>
+  
+        <div class="info-row">
+          <span class="info-label">Certification</span>
+          <span class="info-value">{{ trainer?.certification }}</span>
+        </div>
+  
+        <div class="info-row">
+          <span class="info-label">Status</span>
+          <span class="info-value">
+            <span class="status-badge"
+              [class.status-active]="trainer?.status === 'Active'"
+              [class.status-inactive]="trainer?.status === 'Inactive'">
+              {{ trainer?.status }}
+            </span>
+          </span>
+        </div>
+  
+        <button type="button" class="btn-resume" (click)="openResume($event)">  
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+          </svg>
+          View Resume
+        </button>
+      </div>
+  
+      <div class="section-panel">
+        <div class="section-panel-header">
+          <div class="section-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+              fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+              <line x1="8" y1="21" x2="16" y2="21"></line>
+              <line x1="12" y1="17" x2="12" y2="21"></line>
+            </svg>
+          </div>
+          <h3 class="section-title">Requirement Details</h3>
+        </div>
+  
+        <div class="info-row">
+          <span class="info-label">Title</span>
+          <span class="info-value">{{ requirement?.title }}</span>
+        </div>
+  
+        <div class="info-row">
+          <span class="info-label">Description</span>
+          <span class="info-value">{{ requirement?.description }}</span>
+        </div>
+  
+        <div class="info-row">
+          <span class="info-label">Department</span>
+          <span class="info-value">{{ requirement?.department }}</span>
+        </div>
+  
+        <div class="info-row">
+          <span class="info-label">Duration</span>
+          <span class="info-value">{{ requirement?.duration }}</span>
+        </div>
+  
+        <div class="info-row">
+          <span class="info-label">Mode</span>
+          <span class="info-value">{{ requirement?.mode }}</span>
+        </div>
+  
+        <div class="info-row">
+          <span class="info-label">Location</span>
+          <span class="info-value">{{ requirement?.location }}</span>
+        </div>
+  
+        <div class="info-row">
+          <span class="info-label">Skill Level</span>
+          <span class="info-value">{{ requirement?.skillLevel }}</span>
+        </div>
+  
+        <div class="info-row">
+          <span class="info-label">Budget</span>
+          <span class="info-value">{{ requirement?.budget }}</span>
+        </div>
+  
+        <div class="info-row">
+          <span class="info-label">Priority</span>
+          <span class="info-value">{{ requirement?.priority }}</span>
+        </div>
+  
+        <div class="info-row">
+          <span class="info-label">Status</span>
+          <span class="info-value">
+            <span class="status-badge"
+              [class.status-open]="requirement?.status === 'Open'"
+              [class.status-closed]="requirement?.status === 'Closed'">
+              {{ requirement?.status }}
+            </span>
+          </span>
+        </div>
+  
+        <div class="info-row">
+          <span class="info-label">Payment Status</span>
+          <span class="info-value">
+            <span class="status-badge"
+              [class.status-pending]="requirement?.paymentStatus === 'Pending'"
+              [class.status-completed]="requirement?.paymentStatus === 'Completed'"
+              [class.status-inactive]="requirement?.paymentStatus === 'N/A' || !requirement?.paymentStatus">
+              {{ requirement?.paymentStatus || 'N/A' }}
+            </span>
+          </span>
+        </div>
+  
+        <div class="action-buttons" *ngIf="showActionButtons()">
+          <button type="button" class="btn-accept" (click)="openConfirm('accept', $event)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            Accept & Pay Trainer
+          </button>
+  
+          <button type="button" class="btn-reject" (click)="openConfirm('reject', $event)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+            Reject Trainer
+          </button>
+        </div>
+  
+        <p *ngIf="!showActionButtons()" style="color: green; margin-top: 10px;">
+          Requirement already Closed. No actions available.
+        </p>
+  
+      </div>
+    </div>
+  </div>
+  </div>
+  
+  <div *ngIf="showResumeModal" class="resume-backdrop">
+  <div class="resume-modal">
+    <div class="resume-modal-header">
+      <h3 class="resume-modal-title">Trainer Resume</h3>
+      <button type="button" class="btn-close" (click)="closeResume($event)">✕</button>
+    </div>
+    <div class="resume-modal-body">
+           <p *ngIf="!resumeUrl" class="resume-empty">No resume available.</p>
+           <iframe title="resume" *ngIf="resumeUrl" class="resume-iframe" [src]="resumeUrl"></iframe>
+    </div>
+  </div>
+  </div>
+  
+  <div *ngIf="showConfirmModal" class="modal-backdrop">
+  <div class="modal-card">
+  
+    <div class="modal-icon" [class.accept]="confirmAction === 'accept'" [class.reject]="confirmAction === 'reject'">
+      <svg *ngIf="confirmAction === 'accept'" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+        viewBox="0 0 24 24" fill="none" stroke="#84cc16" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+      <svg *ngIf="confirmAction === 'reject'" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+        viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </div>
+  
+    <p *ngIf="confirmAction === 'accept'"><b>Accept & Pay for this trainer?</b></p>
+    <p *ngIf="confirmAction === 'reject'"><b>Reject this trainer?</b></p>
+  
+    <p class="modal-sub" *ngIf="confirmAction === 'accept'">You will be securely redirected to Razorpay. The requirement will be closed upon success.</p>
+    <p class="modal-sub" *ngIf="confirmAction === 'reject'">The requirement will be re-opened.</p>
+  
+    <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+  
+    <div class="modal-actions">
+      <button
+        type="button"
+        class="btn-confirm-ok"
+        [class.danger]="confirmAction === 'reject'"
+        (click)="confirmOk($event)"
+        [disabled]="isUpdating">
+        {{ isUpdating ? 'Please wait...' : 'Confirm' }}
+      </button>
+  
+      <button
+        type="button"
+        class="btn-confirm-cancel"
+        (click)="closeConfirm($event)"
+        [disabled]="isUpdating">
+        Cancel
+      </button>
+    </div>
+  </div>
+  </div>

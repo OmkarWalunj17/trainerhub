@@ -1,0 +1,251 @@
+<div class="page-container">
+  <div class="bg-shape shape-1"></div>
+  <div class="bg-shape shape-2"></div>
+  <div class="bg-grid"></div>
+ 
+  <div class="content-card">
+ 
+    <div class="card-header">
+      <div class="logo-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+          fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+          <line x1="8" y1="21" x2="16" y2="21"/>
+          <line x1="12" y1="17" x2="12" y2="21"/>
+        </svg>
+      </div>
+ 
+      <h2 class="title">Available Requirements</h2>
+      <p class="subtitle">Browse open requirements and assign the right trainer for each session.</p>
+    </div>
+ 
+    <div class="controls-row" style="display: flex; justify-content: space-between; align-items: flex-end;">
+      <div class="search-group">
+        <div class="form-group">
+          <label for="" >Search Requirements</label>
+          <div class="input-wrapper">
+            <span class="input-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+            </span>
+            <input
+              type="text"
+              placeholder="Search by title or department..."
+              [(ngModel)]="searchI"
+              (input)="search()"
+              [disabled]="loadingRequirements"
+            />
+          </div>
+        </div>
+      </div>
+ 
+      <div class="toggle-wrapper" style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+        <span style="font-weight: 600; color: #374151; font-size: 0.95rem;">Smart Auto-Assign</span>
+        <label class="switch">
+          <span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0);">
+            Enable Auto-Assign
+          </span>
+          <input type="checkbox" [(ngModel)]="isAutoAssignEnabled" (change)="toggleAutoAssign()">
+          <span class="slider round"></span>
+        </label>
+      </div>
+    </div>
+ 
+    <div *ngIf="loadingRequirements" class="loading-state">
+      <div class="spinner"></div>
+      <span>Loading requirements...</span>
+    </div>
+ 
+    <div class="table-wrapper" *ngIf="!loadingRequirements">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>S.No</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Department</th>
+            <th>Duration</th>
+            <th>Status</th>
+            <th>Trainer Assigned</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+ 
+        <tbody>
+          <tr *ngFor="let r of pagedRequirement; index as i">
+            <td class="id-cell">{{ (currentPage - 1) * pageSize + (i + 1) }}</td>
+            <td class="bold-cell">{{ r.title }}</td>
+            <td class="desc-cell" [title]="r.description">{{ r.description }}</td>
+            <td>{{ r.department }}</td>
+            <td class="secondary-cell">{{ r.duration }}</td>
+ 
+            <td>
+              <span class="status-badge"
+                [class.status-open]="r.status === 'Open'"
+                [class.status-closed]="r.status === 'Closed'">
+                {{ r.status }}
+              </span>
+            </td>
+ 
+            <td>
+              <span *ngIf="isTrainerAssigned(r)" class="assigned-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                Assigned
+              </span>
+ 
+              <span *ngIf="!isTrainerAssigned(r)" class="unassigned-badge">Not Assigned</span>
+            </td>
+ 
+            <td class="actions-cell">
+              <button
+                *ngIf="!isTrainerAssigned(r); else assignedBtn"
+                type="button"
+                class="btn-assign"
+                (click)="openAssignTrainerModal(r)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="5" x2="12" y2="19"/>
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+                Assign Trainer
+              </button>
+ 
+              <ng-template #assignedBtn>
+                <button type="button" class="btn-assigned-done" disabled>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                  Assigned
+                </button>
+              </ng-template>
+            </td>
+          </tr>
+ 
+          <tr *ngIf="filteredRequirement.length === 0">
+            <td colspan="8" class="empty-state">
+              <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"
+                fill="none" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                <line x1="8" y1="21" x2="16" y2="21"/>
+                <line x1="12" y1="17" x2="12" y2="21"/>
+              </svg>
+              <p>No requirements found.</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+ 
+      <div class="pagination-bar" *ngIf="filteredRequirement.length > 0">
+        <div class="pager">
+          <button (click)="prevPage()" [disabled]="currentPage === 1">Prev</button>
+ 
+          <span class="page-info">
+            Page {{ currentPage }} of {{ totalPages }}
+          </span>
+ 
+          <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+        </div>
+      </div>
+ 
+    </div>
+  </div>
+</div>
+ 
+<div class="modal-backdrop" *ngIf="showAssignModal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <div class="modal-logo-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+          fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <line x1="23" y1="11" x2="17" y2="11"/>
+          <line x1="20" y1="8" x2="20" y2="14"/>
+        </svg>
+      </div>
+ 
+      <div class="modal-title-group">
+        <h3>Assign Trainer</h3>
+        <p class="modal-subtitle">Select a trainer to assign to this requirement.</p>
+      </div>
+ 
+      <button type="button" class="close-btn" (click)="closeModal()">✕</button>
+    </div>
+ 
+    <div class="modal-body">
+      <p class="modal-req-label">
+        Assigning trainer for: <b>{{ selectedRequirement?.title }}</b>
+      </p>
+ 
+      <div class="modal-search-wrapper">
+        <span class="modal-search-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </span>
+        <input
+          type="text"
+          class="modal-search-input"
+          placeholder="Search by name or expertise..."
+          [(ngModel)]="searchT"
+          (input)="searchTrainer()"
+        />
+      </div>
+ 
+      <div *ngIf="loadingTrainer" class="loading-state">
+        <div class="spinner"></div>
+        <span>Loading trainers...</span>
+      </div>
+ 
+      <div class="inner-table-wrapper" *ngIf="!loadingTrainer">
+        <table class="inner-table">
+          <thead>
+            <tr>
+              <th>Trainer</th>
+              <th>Expertise</th>
+              <th>Expected (₹)</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let t of filteredTrainer">
+              <td>
+                <div class="trainer-cell">
+                  <div class="trainer-avatar">{{ t.name.charAt(0).toUpperCase() }}</div>
+                  {{ t.name }}
+                </div>
+              </td>
+              <td class="expertise-cell">{{ t.expertise }}</td>
+              <td class="expertise-cell">{{ t.expectedSalary || 'N/A' }}</td>
+              <td>
+                <button type="button" class="btn-select" (click)="assignTrainerToRequirement(t)">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                  Select
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="filteredTrainer.length === 0">
+              <td colspan="4" class="empty-state-sm">No trainers found.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+ 
+    <div class="modal-footer">
+      <button type="button" class="btn-close-modal" (click)="closeModal()">Close</button>
+    </div>
+  </div>
+</div>

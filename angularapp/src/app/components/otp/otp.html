@@ -1,0 +1,64 @@
+<div class="signup-container">
+  <div class="bg-shape shape-1"></div>
+  <div class="bg-shape shape-2"></div>
+  <div class="bg-grid"></div>
+
+  <div class="signup-card">
+    <div class="card-header">
+      <div class="logo-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <path d="M9 12l2 2 4-4"/>
+        </svg>
+      </div>
+      <h2 class="title">Verify Email</h2>
+      <p class="subtitle">Enter the 6-digit OTP sent to your email.</p>
+    </div>
+
+    <form (ngSubmit)="onVerify()" #otpForm="ngForm" class="signup-form">
+      
+      <div class="form-group">
+        <label for="" class="center-label">One-Time Password</label>
+        
+        <div class="otp-inputs">
+          <input
+            *ngFor="let digit of otpArray; let i = index; trackBy: trackByIndex"
+            #otpInput
+            type="text"
+            inputmode="numeric"
+            maxlength="1"
+            autocomplete="one-time-code"
+            [name]="'otp'+i"
+            [(ngModel)]="otpArray[i]"
+            (input)="onInput($event, i)"
+            (keydown)="onKeyDown($event, i)"
+            (paste)="onPaste($event)"
+            class="otp-box"
+            [class.error]="errorMsg"
+          />
+        </div>
+
+        <div class="message-container">
+          <span *ngIf="errorMsg" class="error-msg">{{ errorMsg }}</span>
+          <span *ngIf="infoMsg" class="info-msg">{{ infoMsg }}</span>
+        </div>
+      </div>
+
+      <!-- <button type="submit" class="btn-submit" [disabled]="loading || otpString.length !== 6">
+        {{ loading ? 'Verifying...' : 'Verify OTP' }}
+      </button> -->
+
+      <button type="submit" class="btn-submit" [disabled]="loading">{{ loading ? 'Verifying...' : 'Verify OTP' }}</button>
+      
+      <div class="helper-row">
+        <!-- <button type="button" class="link-btn" (click)="resendOtp()" [disabled]="resendDisabled">
+          {{ resendDisabled ? 'Resend in ' + countdown + 's' : 'Resend OTP' }}
+        </button> -->
+
+        <button type="button" class="link-btn danger" (click)="goBackToLogin()">
+          Change Email
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

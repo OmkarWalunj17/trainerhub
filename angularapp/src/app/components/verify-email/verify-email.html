@@ -1,0 +1,43 @@
+<div class="verify-container">
+  <div *ngIf="status === 'loading'" class="card">
+    <div class="icon">⏳</div>
+    <h2>Verifying…</h2>
+    <p>{{ message }}</p>
+  </div>
+
+  <div *ngIf="status === 'success'" class="card success">
+    <div class="icon">✅</div>
+    <h2>Email Verified</h2>
+    <p>{{ message }}</p>
+
+    <p class="hint">
+      Redirecting to login in <b>{{ countdown }}</b> seconds…
+    </p>
+
+    <button class="btn" (click)="goToLoginNow()">
+      Go to Login Now
+    </button>
+  </div>
+
+  <div *ngIf="status === 'error'" class="card error">
+    <div class="icon">❌</div>
+    <h2>Verification Failed</h2>
+    <p>{{ message }}</p>
+
+    <div class="actions">
+      <a class="btn secondary" routerLink="/resend-verification">
+        Resend verification email
+      </a>
+      <a class="btn link" routerLink="/login">
+        Back to login
+      </a>
+    </div>
+  </div>
+
+  <div *ngIf="status === 'missing'" class="card error">
+    <div class="icon">⚠️</div>
+    <h2>Invalid Link</h2>
+    <p>{{ message }}</p>
+    <a class="btn secondary" routerLink="/login">Back to login</a>
+  </div>
+</div>

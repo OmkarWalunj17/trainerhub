@@ -1,0 +1,231 @@
+<div class="page-container">
+  <div class="bg-shape shape-1"></div>
+  <div class="bg-shape shape-2"></div>
+  <div class="bg-grid"></div>
+
+  <div class="content-card">
+    <div class="card-header">
+      <div class="logo-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+          fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+      </div>
+      <h2 class="title">Feedback Received</h2>
+      <p class="subtitle">Review all feedback submitted by users for assigned trainers.</p>
+    </div>
+
+    <div class="controls-row">
+      <div class="filter-group">
+        <div class="form-group">
+          <label for="cat">Filter by Category</label>
+          <div class="select-wrapper">
+            <select id="cat" [ngModel]="category" (ngModelChange)="filterByCategory($event)">
+              <option value="">All Categories</option>
+              <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
+            </select>
+            <span class="select-arrow">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="loadingFeedbacks" class="loading-state">
+      <div class="spinner"></div>
+      <span>Loading feedbacks…</span>
+    </div>
+
+    <div class="table-wrapper" *ngIf="!loadingFeedbacks && filteredFeedbacks?.length">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>S.No</th>
+            <th>User</th>
+            <th>Feedback</th>
+            <th>Posted Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let f of pagedFeedback; trackBy: trackById">
+
+            <td class="id-cell">{{ f.feedbackId }}</td>
+
+            <td>
+                <div class="user-cell">
+                  <div class="user-avatar">
+                    {{
+                      (f.user?.name || f.user?.username || ('U'))
+                        .charAt(0).toUpperCase()
+                    }}
+                  </div>
+                  <span class="user-name">
+                    {{
+                      f.user?.name || f.user?.username || ('User #' + (f.userId ?? f.user?.userId))
+                    }}
+                  </span>
+                </div>
+            </td>
+
+            <td class="feedback-cell" [title]="f.feedbackText">{{ f.feedbackText }}</td>
+
+            <td class="date-cell">{{ f.date | date : 'dd/MM/yyyy' }}</td>
+
+            <td class="actions-cell">
+              <button
+                class="btn-profile"
+                (click)="showUserProfile(f.userId ?? f.user?.userId)"
+                [disabled]="!(f.userId ?? f.user?.userId)"
+                [title]="!(f.userId ?? f.user?.userId) ? 'User not linked' : 'Show Profile'">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                  <circle cx="12" cy="7" r="4"/>
+                </svg>
+                Show Profile
+              </button>
+
+              <button
+                class="btn-trainer"
+                (click)="showTrainer(f.trainerId ?? f.trainer?.trainerId)"
+                [disabled]="!(f.trainerId ?? f.trainer?.trainerId)"
+                [title]="!(f.trainerId ?? f.trainer?.trainerId) ? 'Trainer not linked' : 'View Trainer Info'">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="8" r="4"/>
+                  <path d="M20 21a8 8 0 1 0-16 0"/>
+                </svg>
+                Trainer Info
+              </button>
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+
+
+      <div class="pagination-bar" *ngIf="filteredFeedbacks.length > 0">
+      
+        <div class="pager">
+          <button (click)="prevPage()" [disabled]="currentPage === 1">Prev</button>
+      
+          <span class="page-info">
+            Page {{ currentPage }} of {{ totalPages }}
+          </span>
+      
+          <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+        </div>
+      
+      </div>
+        
+
+    </div>
+
+    <div *ngIf="!loadingFeedbacks && (!filteredFeedbacks || filteredFeedbacks.length === 0)"
+      class="empty-state">
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"
+        fill="none" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      </svg>
+      <p>No feedback found.</p>
+    </div>
+
+  </div>
+</div>
+
+<div *ngIf="user || loadingUser" class="modal-backdrop">
+  <div class="modal-card">
+
+    <div class="modal-header">
+      <div class="modal-logo-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+          fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+      </div>
+      <h3>User Profile</h3>
+      <button class="close-btn" (click)="clearUser()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <div *ngIf="loadingUser" class="modal-loading">
+        <div class="spinner"></div>
+        <span>Loading user details…</span>
+      </div>
+
+      <ng-container *ngIf="!loadingUser && user">
+        <div class="detail-row">
+          <span class="detail-label">Email</span>
+          <span class="detail-value">{{ user.email }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Username</span>
+          <span class="detail-value">{{ user.username }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Mobile</span>
+          <span class="detail-value">{{ user.mobileNumber }}</span>
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-close-modal" (click)="clearUser()">Close</button>
+    </div>
+
+  </div>
+</div>
+
+<div *ngIf="trainer || loadingTrainer" class="modal-backdrop">
+  <div class="modal-card">
+
+    <div class="modal-header">
+      <div class="modal-logo-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+          fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M20 21a8 8 0 1 0-16 0"/>
+        </svg>
+      </div>
+      <h3>Trainer Details</h3>
+      <button class="close-btn" (click)="clearTrainer()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <div *ngIf="loadingTrainer" class="modal-loading">
+        <div class="spinner"></div>
+        <span>Loading trainer details…</span>
+      </div>
+
+      <ng-container *ngIf="!loadingTrainer && trainer">
+        <div class="detail-row">
+          <span class="detail-label">Name</span>
+          <span class="detail-value">{{ trainer.name }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Expertise</span>
+          <span class="detail-value">{{ trainer.expertise }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Email</span>
+          <span class="detail-value">{{ trainer.email }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Phone</span>
+          <span class="detail-value">{{ trainer.phone }}</span>
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-close-modal" (click)="clearTrainer()">Close</button>
+    </div>
+  </div>
+</div>

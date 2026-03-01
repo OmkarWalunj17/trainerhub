@@ -1,0 +1,122 @@
+<div class="page-container">
+  <div class="bg-shape shape-1"></div>
+  <div class="bg-shape shape-2"></div>
+  <div class="bg-grid"></div>
+
+  <div class="content-card">
+    <div class="card-header">
+      <div class="logo-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="white"
+          stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+      </div>
+      <h2 class="title">Selected Trainers</h2>
+      <p class="subtitle">Trainers assigned to your requirements. Provide feedback after their session.</p>
+    </div>
+
+    <div *ngIf="loading" class="loading-state">
+      <div class="spinner"></div>
+      <p>Loading trainers...</p>
+    </div>
+
+    <div class="table-wrapper" *ngIf="!loading">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Trainer</th>
+            <th>Expertise</th>
+            <th>Experience</th>
+            <th>Certification</th>
+            <th>Requirement</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let r of pagedRequirements; index as i">
+            <td class="id-cell">{{ (currentPage - 1) * pageSize + i + 1 }}</td>
+
+            <td>
+              <div class="trainer-cell">
+                <div class="trainer-avatar">
+                  {{ (r.trainer?.name || '?').charAt(0).toUpperCase() }}
+                </div>
+                <div class="trainer-info">
+                  <div class="trainer-name">{{ r.trainer?.name }}</div>
+                  <div class="trainer-contact">{{ r.trainer?.email }}</div>
+                  <div class="trainer-contact">{{ r.trainer?.phone }}</div>
+                </div>
+              </div>
+            </td>
+
+            <td>
+              <span class="expertise-badge">{{ r.trainer?.expertise }}</span>
+            </td>
+
+            <td class="secondary-cell">{{ r.trainer?.experience }} yrs</td>
+
+            <td class="secondary-cell">{{ r.trainer?.certification }}</td>
+
+            <td>
+              <span class="req-title">{{ r.title }}</span>
+            </td>
+
+            <td>
+              <span class="status-badge"
+                [class.status-active]="r.trainer?.status === 'Active'"
+                [class.status-inactive]="r.trainer?.status === 'Inactive'">
+                {{ r.trainer?.status }}
+              </span>
+            </td>
+
+            <td class="actions-cell">
+              <button class="btn-feedback"
+                      (click)="addFeedback(r.trainer?.trainerId)"
+                      [disabled]="!r.trainer?.trainerId"
+                      title="Give Feedback">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                  viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+                Feedback
+              </button>
+            </td>
+          </tr>
+
+          <tr *ngIf="!loading && totalItems === 0">
+            <td colspan="8" class="empty-state">
+              <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+                viewBox="0 0 24 24" fill="none"
+                stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="8" r="4"></circle>
+                <path d="M20 21a8 8 0 1 0-16 0"></path>
+              </svg>
+              <p>No trainers assigned yet.</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination-bar" *ngIf="!loading && totalItems > 0">
+      <div class="pager">
+        <button (click)="prevPage()" [disabled]="currentPage === 1">Prev</button>
+
+        <span class="page-info">
+          Page {{ currentPage }} of {{ totalPages }}
+        </span>
+
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+      </div>
+    </div>
+
+  </div>
+</div>

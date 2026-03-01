@@ -1,0 +1,201 @@
+<div class="page-container">
+  <div class="bg-shape shape-1"></div>
+  <div class="bg-shape shape-2"></div>
+  <div class="bg-grid"></div>
+
+  <div class="requirement-card">
+    <div class="card-header">
+      <div class="logo-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white"
+          stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <polyline points="14 2 14 8 20 8" />
+          <line x1="12" y1="18" x2="12" y2="12" />
+          <line x1="9" y1="15" x2="15" y2="15" />
+        </svg>
+      </div>
+      <h2 class="title">{{ id ? 'Update Requirement' : 'Create Requirement' }}</h2>
+      <p class="subtitle">Fill in the details below to {{ id ? 'update the' : 'post a new' }} training requirement.</p>
+    </div>
+
+    <form [formGroup]="requirementForm" (ngSubmit)="saveRequirement()" class="requirement-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <div class="input-wrapper" [class.error]="title.touched && title.invalid">
+            <span class="input-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="17" y1="10" x2="3" y2="10" />
+                <line x1="21" y1="6" x2="3" y2="6" />
+                <line x1="21" y1="14" x2="3" y2="14" />
+                <line x1="17" y1="18" x2="3" y2="18" />
+              </svg>
+            </span>
+            <input id="title" type="text" formControlName="title" placeholder="e.g. Angular Training" />
+          </div>
+          <span *ngIf="title.touched && title.errors?.['required']" class="error-msg">Title is required</span>
+        </div>
+
+        <div class="form-group">
+          <label for="department">Department</label>
+          <div class="input-wrapper" [class.error]="department.touched && department.invalid">
+            <span class="input-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" />
+                <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+              </svg>
+            </span>
+            <input id="department" type="text" formControlName="department" placeholder="e.g. Engineering" />
+          </div>
+          <span *ngIf="department.touched && department.errors?.['required']" class="error-msg">Department is
+            required</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <div class="textarea-wrapper" [class.error]="description.touched && description.invalid">
+          <span class="textarea-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+            </svg>
+          </span>
+          <textarea id="description" formControlName="description" placeholder="Describe the training requirement..."
+            rows="3"></textarea>
+        </div>
+        <span *ngIf="description.touched && description.errors?.['required']" class="error-msg">Description is
+          required</span>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="duration">Duration</label>
+          <div class="input-wrapper" [class.error]="duration.touched && duration.invalid">
+            <span class="input-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+            </span>
+            <input id="duration" type="text" formControlName="duration" placeholder="e.g. 2 Weeks" />
+          </div>
+          <span *ngIf="duration.touched && duration.errors?.['required']" class="error-msg">Duration is required</span>
+        </div>
+
+        <div class="form-group">
+          <label for="location">Location</label>
+          <div class="input-wrapper" [class.error]="location.touched && location.invalid">
+            <span class="input-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+            </span>
+            <input id="location" type="text" formControlName="location" placeholder="e.g. Mumbai" />
+          </div>
+          <span *ngIf="location.touched && location.errors?.['required']" class="error-msg">Location is required</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="mode">Mode</label>
+          <div class="select-wrapper" [class.error]="mode.touched && mode.invalid">
+            <select id="mode" formControlName="mode">
+              <option value="" disabled selected>Select Mode</option>
+              <option value="Online">Online</option>
+              <option value="Offline">Offline</option>
+            </select>
+            <span class="select-arrow">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </span>
+          </div>
+          <span *ngIf="mode.touched && mode.errors?.['required']" class="error-msg">Mode is required</span>
+        </div>
+
+        <div class="form-group">
+          <label for="skillLevel">Skill Level</label>
+          <div class="select-wrapper" [class.error]="skillLevel.touched && skillLevel.invalid">
+            <select id="skillLevel" formControlName="skillLevel">
+              <option value="" disabled selected>Select Skill Level</option>
+              <option value="Beginner">Beginner</option>
+              <option value="Intermediate">Intermediate</option>
+              <option value="Advanced">Advanced</option>
+            </select>
+            <span class="select-arrow">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </span>
+          </div>
+          <span *ngIf="skillLevel.touched && skillLevel.errors?.['required']" class="error-msg">Skill Level is
+            required</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="budget">Budget</label>
+          <div class="input-wrapper" [class.error]="budget.touched && budget.invalid">
+            <span class="input-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="1" x2="12" y2="23" />
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+              </svg>
+            </span>
+            <input id="budget" type="number" formControlName="budget" placeholder="e.g. 50000" />
+          </div>
+          <span *ngIf="budget.touched && budget.errors?.['required']" class="error-msg">Budget is required</span>
+        </div>
+
+        <div class="form-group">
+          <label for="priority">Priority</label>
+          <div class="select-wrapper" [class.error]="priority.touched && priority.invalid">
+            <select id="priority" formControlName="priority">
+              <option value="" disabled selected>Select Priority</option>
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
+            </select>
+            <span class="select-arrow">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </span>
+          </div>
+          <span *ngIf="priority.touched && priority.errors?.['required']" class="error-msg">Priority is required</span>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit" [disabled]="requirementForm.invalid || isLoading">
+        {{ id ? 'Update Requirement' : 'Add Requirement' }}
+      </button>
+
+    </form>
+
+  </div>
+</div>
+
+<div class="loader-overlay" *ngIf="isLoading">
+  <div class="loader-box">
+    <app-postman-loader [isLoading]="isLoading"></app-postman-loader>
+  </div>
+</div>
+
+<app-success-modal [isVisible]="showSuccessModal" [message]="successMessage" (onClose)="onSuccessClose()">
+</app-success-modal>
+
+<app-failure-modal [isVisible]="showFailureModal" [message]="failureMessage" [buttonText]="'Okay'"
+  (onClose)="onFailureClose()">
+</app-failure-modal>

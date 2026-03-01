@@ -1,0 +1,23 @@
+<div class="verification-container">
+  <div class="verification-card">
+    
+    <div class="verification-icon">📧</div>
+
+    <h2 class="verification-title">Check your email</h2>
+
+    <p class="verification-text">
+      We’ve sent a verification link to
+      <span class="verification-email">{{ email || 'your email address' }}</span>.
+    </p>
+
+    <p class="verification-hint">
+      Click the link in the email to verify your account.
+      If you don’t see it, check your spam or junk folder.
+    </p>
+
+    <a routerLink="/login" class="verification-btn">
+      Back to Login
+    </a>
+
+  </div>
+</div>

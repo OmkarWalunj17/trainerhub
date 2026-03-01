@@ -1,0 +1,26 @@
+<div class="modal-overlay" *ngIf="isVisible" (click)="close()" onkeydown="" >
+  <div class="modal-box" (click)="$event.stopPropagation()" onkeyup="" >
+    <div class="icon-wrap">
+      <svg class="circle-svg" viewBox="0 0 80 80">
+        <circle class="circle-bg" cx="40" cy="40" r="36"/>
+        <circle class="circle-ring" cx="40" cy="40" r="36"/>
+      </svg>
+      <svg class="check-svg" viewBox="0 0 52 52">
+        <polyline class="check-mark" points="14,27 24,37 38,17"/>
+      </svg>
+    </div>
+
+    <h2 class="modal-title">Success!</h2>
+    <p class="modal-message">{{ message }}</p>
+
+    <button class="btn-okay" (click)="close()">
+      <span>Okay</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="2.5"
+           stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+    </button>
+
+  </div>
+</div>

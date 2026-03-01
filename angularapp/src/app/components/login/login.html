@@ -1,0 +1,81 @@
+<div class="signup-container">
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+    <div class="bg-grid"></div>
+  
+    <div class="signup-card">
+      <div class="card-header">
+        <div class="logo-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h2 class="title">Welcome Back</h2>
+        <p class="subtitle">Sign in to access your dashboard.</p>
+      </div>
+  
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="signup-form">
+        
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <div class="input-wrapper" [class.error]="email.touched && email.invalid">
+            <span class="input-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </span>
+            <input id="email" type="email" formControlName="email" placeholder="name@company.com">
+          </div>
+          <span *ngIf="email.touched && email.errors?.['required']" class="error-msg">
+            Email is required
+          </span>
+          <span *ngIf="email.touched && email.errors?.['pattern']" class="error-msg">
+            Enter a valid email ending with .com
+          </span>
+          
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-wrapper" [class.error]="password.touched && password.invalid">
+            <span class="input-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </span>
+            <input
+            id="password"
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            placeholder="••••••••"/>
+
+          <button
+            type="button"
+            class="eye-btn"
+            (click)="togglePassword()"
+            [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'">
+            <svg *ngIf="!showPassword" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7S2 12 2 12z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+
+            <svg *ngIf="showPassword" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-10-8-10-8a21.86 21.86 0 0 1 5.06-6.94"></path>
+              <path d="M1 1l22 22"></path>
+              <path d="M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 10 8 10 8a21.7 21.7 0 0 1-2.73 4.11"></path>
+              <path d="M14.12 14.12a3 3 0 0 1-4.24-4.24"></path>
+            </svg>
+          </button>
+          </div>
+          <span *ngIf="password.touched && password.errors?.['required']" class="error-msg">Password is required</span>
+          <span *ngIf="password.touched && password.errors?.['pattern']" class="error-msg">8+ chars with upper, lower, number & special</span>
+        </div>
+        
+        <button type="submit" class="btn-submit" [disabled]="loginForm.invalid">
+          Sign In
+        </button>
+        
+        <div class="login-link">
+          Don't have an account? <a routerLink="/register">Create one</a>
+        </div>
+      </form>
+    </div>
+  </div>

@@ -1,0 +1,55 @@
+<div class="page-container">
+  <div class="bg-shape shape-1"></div>
+  <div class="bg-shape shape-2"></div>
+  <div class="bg-grid"></div>
+
+  <div class="form-card">
+    <div class="card-header">
+      <div class="logo-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white"
+          stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+      </div>
+      <h2 class="title">Give Feedback</h2>
+      <p class="subtitle">Share your experience with this trainer.</p>
+    </div>
+
+    <div class="form-body">
+
+      <div class="form-group">
+        <label for="feedbackText">Feedback</label>
+        <textarea id="feedbackText" name="feedbackText" [(ngModel)]="feedbackText"
+          placeholder="Write your feedback here…" rows="5"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="category">Category</label>
+        <div class="select-wrapper">
+          <select id="category" name="category" [(ngModel)]="category">
+            <option value="">Select a category</option>
+            <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
+          </select>
+          <span class="select-arrow">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-submit" (click)="submitFeedback()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13" />
+            <polygon points="22 2 15 22 11 13 2 9 22 2" />
+          </svg>
+          Submit Feedback
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
